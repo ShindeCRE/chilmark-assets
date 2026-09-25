@@ -4,14 +4,26 @@
 .cm-port .reveal,.cm-port .wipe,.cm-port .reveal *,.cm-port .wipe *{opacity:1!important;transform:none!important;clip-path:none!important;visibility:visible!important}
 
 /* ---- Squarespace code-block breakout --------------------------
-   A Fluid Engine block is a small grid cell. These let the ported
-   sections escape it and span the full viewport, and stop the
-   block clipping their height. ------------------------------- */
-.cm-port{ width:100vw; margin-left:calc(50% - 50vw); max-width:none; }
-.sqs-block-code,
-.sqs-block-code .sqs-block-content{ height:auto !important; overflow:visible !important; }
-.fe-block:has(.cm-port),
-.fe-block:has(.cm-port) .sqs-block{ height:auto !important; overflow:visible !important; }
-.fluid-engine:has(.cm-port){ height:auto !important; }
+   A Fluid Engine block is a positioned grid cell. Rather than try
+   to escape it with negative margins (which mis-centre because the
+   cell is not page-centred), dissolve the grid for any section
+   that contains our injected markup. ------------------------- */
+.fluid-engine:has(.cm-port){
+  display:block !important; padding:0 !important; height:auto !important;
+  min-height:0 !important; grid-template-rows:none !important;
+}
+.fe-block:has(.cm-port){
+  position:static !important; width:100% !important; height:auto !important;
+  grid-area:auto !important; max-width:none !important; transform:none !important;
+}
+.fe-block:has(.cm-port) .sqs-block,
+.fe-block:has(.cm-port) .sqs-block-content{
+  padding:0 !important; height:auto !important; overflow:visible !important;
+}
+.page-section:has(.cm-port),
 .page-section:has(.cm-port) .content-wrapper,
-.page-section:has(.cm-port) .content{ padding:0 !important; max-width:none !important; }
+.page-section:has(.cm-port) .content{
+  padding:0 !important; max-width:none !important; width:100% !important;
+  min-height:0 !important;
+}
+.cm-port{ width:100% !important; margin:0 !important; max-width:none !important; }
